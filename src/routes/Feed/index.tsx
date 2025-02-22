@@ -19,6 +19,7 @@ type Props = {}
 
 const Feed: React.FC<Props> = () => {
   const [q, setQ] = useState("")
+  const [viewType, setViewType] = useState<'card' | 'list'>('card')
 
   return (
     <StyledWrapper>
@@ -39,8 +40,10 @@ const Feed: React.FC<Props> = () => {
           <CategoryList />
           <TagList />
         </div>
-        <FeedHeader />
-        <PostList q={q} />
+        <FeedHeader
+          viewType={viewType}
+          onViewTypeChange={setViewType}/>
+        <PostList q={q} viewType={viewType}/>
         <div className="footer">
           <Footer />
         </div>
