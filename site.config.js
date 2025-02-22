@@ -4,16 +4,17 @@ const CONFIG = {
     name: "MILLO",
     image: "/MILLO.png", // If you want to create your own notion avatar, check out https://notion-avatar.vercel.app
     role: "안녕하세요 밀로입니다.",
-    bio: "MILLO TECH-LOG",
+    bio: "MillO TECH-LOG",
     email: "millo.people@gmail.com",
-    linkedin: "morethanmin",
-    github: "morethanmin",
+    linkedin: "",
+    // TODO: 깃허브 링크이동 필요 현재는 깃허브 id를 식별하기떄문에 링크가 안들어감
+    github: "",
     instagram: "",
   },
   projects: [
     {
-      name: `morethan-log`,
-      href: "https://github.com/morethanmin/morethan-log",
+      name: `다이어리`,
+      href: "https://github.com/MIL-LO",
     },
   ],
   // blog setting (required)
