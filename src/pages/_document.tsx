@@ -1,8 +1,13 @@
-import Document, { Html, Head, Main, NextScript } from "next/document"
-import { CONFIG } from "site.config"
+import Document, { Html, Head, Main, NextScript } from "next/document";
+import { CONFIG } from "site.config";
 
 class MyDocument extends Document {
   render() {
+    const ogImage =
+      CONFIG.ogImageGenerateURL.startsWith("http")
+        ? CONFIG.ogImageGenerateURL
+        : `${CONFIG.link}${CONFIG.ogImageGenerateURL}`;
+
     return (
       <Html lang={CONFIG.lang}>
         <Head>
@@ -24,24 +29,24 @@ class MyDocument extends Document {
           <meta property="og:type" content="website" />
           <meta property="og:title" content={CONFIG.blog.title} />
           <meta property="og:description" content={CONFIG.blog.description} />
-          <meta property="og:image" content={CONFIG.ogImageGenerateURL} />
+          <meta property="og:image" content={ogImage} />
           <meta property="og:url" content={CONFIG.link} />
 
           {/* Twitter Card Meta Tags */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content={CONFIG.blog.title} />
           <meta name="twitter:description" content={CONFIG.blog.description} />
-          <meta name="twitter:image" content={CONFIG.ogImageGenerateURL} />
+          <meta name="twitter:image" content={ogImage} />
 
           {/* google search console */}
-          {CONFIG.googleSearchConsole.enable === true && (
+          {CONFIG.googleSearchConsole.enable && (
             <meta
               name="google-site-verification"
               content={CONFIG.googleSearchConsole.config.siteVerification}
             />
           )}
           {/* naver search advisor */}
-          {CONFIG.naverSearchAdvisor.enable === true && (
+          {CONFIG.naverSearchAdvisor.enable && (
             <meta
               name="naver-site-verification"
               content={CONFIG.naverSearchAdvisor.config.siteVerification}
@@ -53,8 +58,8 @@ class MyDocument extends Document {
         <NextScript />
         </body>
       </Html>
-    )
+    );
   }
 }
 
-export default MyDocument
+export default MyDocument;

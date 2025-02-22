@@ -19,7 +19,7 @@ const CONFIG = {
   // blog setting (required)
   blog: {
     title: "MILLO-tech-log",
-    description: "welcome to morethan-log!",
+    description: "welcome to MILLO-tech-log!",
     scheme: "light", // 'light' | 'dark' | 'system'
   },
 
