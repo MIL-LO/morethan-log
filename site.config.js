@@ -3,23 +3,22 @@ const CONFIG = {
   profile: {
     name: "MILLO",
     image: "/MILLO.png", // If you want to create your own notion avatar, check out https://notion-avatar.vercel.app
-    role: "안녕하세요 밀로입니다.",
-    bio: "MillO TECH-LOG",
+    role: "TEAM",
+    bio: "안녕하세요 밀로입니다.",
     email: "millo.people@gmail.com",
     linkedin: "",
-    // TODO: 깃허브 링크이동 필요 현재는 깃허브 id를 식별하기떄문에 링크가 안들어감
-    github: "",
+    github: "MIL-LO",
     instagram: "",
   },
   projects: [
     {
-      name: `다이어리`,
-      href: "https://github.com/MIL-LO",
+      name: `📔 다이어리(~ing)`,
+      href: "",
     },
   ],
   // blog setting (required)
   blog: {
-    title: "morethan-log",
+    title: "MILLO-tech-log",
     description: "welcome to morethan-log!",
     scheme: "light", // 'light' | 'dark' | 'system'
   },
