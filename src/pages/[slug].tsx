@@ -18,36 +18,68 @@ const filter: FilterPostsOptions = {
 }
 
 export const getStaticPaths = async () => {
-  const posts = await getPosts()
-  const filteredPost = filterPosts(posts, filter)
+  try {
+    const posts = await getPosts()
+    const filteredPost = filterPosts(posts, filter)
+      .filter(post => post.id && post.slug) // 유효한 포스트만 필터링
 
-  return {
-    paths: filteredPost.map((row) => `/${row.slug}`),
-    fallback: true,
+    return {
+      paths: filteredPost.map((row) => `/${row.slug}`),
+      fallback: true,
+    }
+  } catch (error) {
+    console.error('Error in getStaticPaths:', error)
+    return {
+      paths: [],
+      fallback: true,
+    }
   }
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const slug = context.params?.slug
+  try {
+    const slug = context.params?.slug
 
-  const posts = await getPosts()
-  const feedPosts = filterPosts(posts)
-  await queryClient.prefetchQuery(queryKey.posts(), () => feedPosts)
+    const posts = await getPosts()
+    const feedPosts = filterPosts(posts)
+    await queryClient.prefetchQuery(queryKey.posts(), () => feedPosts)
 
-  const detailPosts = filterPosts(posts, filter)
-  const postDetail = detailPosts.find((t: any) => t.slug === slug)
-  const recordMap = await getRecordMap(postDetail?.id!)
+    const detailPosts = filterPosts(posts, filter)
+    const postDetail = detailPosts.find((t: any) => t.slug === slug)
 
-  await queryClient.prefetchQuery(queryKey.post(`${slug}`), () => ({
-    ...postDetail,
-    recordMap,
-  }))
+    // post가 존재하지 않으면 404로 리다이렉트
+    if (!postDetail?.id) {
+      return {
+        notFound: true,
+      }
+    }
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-    revalidate: CONFIG.revalidateTime,
+    // recordMap 가져오기 시도
+    try {
+      const recordMap = await getRecordMap(postDetail.id)
+
+      await queryClient.prefetchQuery(queryKey.post(`${slug}`), () => ({
+        ...postDetail,
+        recordMap,
+      }))
+
+      return {
+        props: {
+          dehydratedState: dehydrate(queryClient),
+        },
+        revalidate: CONFIG.revalidateTime,
+      }
+    } catch (error) {
+      console.error(`Error fetching recordMap for ${slug}:`, error)
+      return {
+        notFound: true,
+      }
+    }
+  } catch (error) {
+    console.error(`Error in getStaticProps for ${context.params?.slug}:`, error)
+    return {
+      notFound: true,
+    }
   }
 }
 
