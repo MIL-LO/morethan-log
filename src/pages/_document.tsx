@@ -11,35 +11,46 @@ class MyDocument extends Document {
             rel="apple-touch-icon"
             sizes="192x192"
             href="/apple-touch-icon.png"
-          ></link>
+          />
           <link
             rel="alternate"
             type="application/rss+xml"
             title="RSS 2.0"
             href="/feed"
-          ></link>
+          />
+
+          {/* Open Graph Meta Tags */}
+          <meta property="og:site_name" content={CONFIG.blog.title} />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content={CONFIG.blog.title} />
+          <meta property="og:description" content={CONFIG.blog.description} />
+          <meta property="og:image" content={CONFIG.ogImageGenerateURL} />
+          <meta property="og:url" content={CONFIG.link} />
+
+          {/* Twitter Card Meta Tags */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={CONFIG.blog.title} />
+          <meta name="twitter:description" content={CONFIG.blog.description} />
+          <meta name="twitter:image" content={CONFIG.ogImageGenerateURL} />
+
           {/* google search console */}
           {CONFIG.googleSearchConsole.enable === true && (
-            <>
-              <meta
-                name="google-site-verification"
-                content={CONFIG.googleSearchConsole.config.siteVerification}
-              />
-            </>
+            <meta
+              name="google-site-verification"
+              content={CONFIG.googleSearchConsole.config.siteVerification}
+            />
           )}
           {/* naver search advisor */}
           {CONFIG.naverSearchAdvisor.enable === true && (
-            <>
-              <meta
-                name="naver-site-verification"
-                content={CONFIG.naverSearchAdvisor.config.siteVerification}
-              />
-            </>
+            <meta
+              name="naver-site-verification"
+              content={CONFIG.naverSearchAdvisor.config.siteVerification}
+            />
           )}
         </Head>
         <body>
-          <Main />
-          <NextScript />
+        <Main />
+        <NextScript />
         </body>
       </Html>
     )
