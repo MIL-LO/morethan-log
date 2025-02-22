@@ -46,7 +46,16 @@ const Utterances: React.FC<Props> = ({ issueTerm }) => {
 export default Utterances
 
 const StyledWrapper = styled.div`
-  @media (min-width: 768px) {
-    margin-left: -4rem;
-  }
+    position: relative;  // absolute 대신 relative 사용
+    width: 100%;
+    margin-top: 2rem;   // 상단 여백 추가
+    margin-bottom: 2rem; // 하단 여백 추가
+
+    @media (min-width: 768px) {
+        margin-left: -4rem;
+    }
+
+    .utterances-frame {
+        width: 100%;
+    }
 `

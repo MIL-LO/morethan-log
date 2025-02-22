@@ -83,10 +83,24 @@ const StyledWrapper = styled.div`
   .notion-collection-page-properties {
     display: none !important;
   }
-  .notion-page {
-    padding: 0;
-  }
-  .notion-list {
-    width: 100%;
-  }
+    .notion-collection-page-properties {
+        display: none !important;
+    }
+    .notion-page {
+        padding: 0;
+        margin-bottom: 2rem; // 페이지 컨텐츠 하단 여백
+    }
+    .notion-list {
+        width: 100%;
+    }
+    
+    
+
+    // 댓글 섹션 관련 스타일
+    #comments {
+        position: relative;
+        margin-top: 2rem;
+    }
+    
+    
 `
