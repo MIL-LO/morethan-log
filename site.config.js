@@ -27,7 +27,7 @@ const CONFIG = {
   link: "https://mil-lo.com",
   since: 2025, // If leave this empty, current year will be used.
   lang: "ko-KR", // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES', 'ko-KR']
-  ogImageGenerateURL: "/MILLO.png", // The link to generate OG image, don't end with a slash
+  ogImageGenerateURL: "https://mil-lo.com/MILLO.png", // 전체 URL 경로로 변경
 
   // notion configuration (required)
   notionConfig: {
