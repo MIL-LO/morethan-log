@@ -43,6 +43,21 @@ const PostCard: React.FC<Props> = ({ data }) => {
                 CONFIG.lang
               )}
             </div>
+            {data.author && data.author[0] && data.author[0].name && (
+              <>
+                <div className="author">
+                  <Image
+                    css={{ borderRadius: "50%" }}
+                    src={data.author[0].profile_photo || CONFIG.profile.image}
+                    alt="profile_photo"
+                    width={24}
+                    height={24}
+                  />
+                  <div>{data.author[0].name}</div>
+                </div>
+                <div className="hr"></div>
+              </>
+            )}
           </div>
           <div className="summary">
             <p>{data.summary}</p>
@@ -92,13 +107,30 @@ const StyledWrapper = styled(Link)`
       position: relative;
       width: 100%;
       background-color: ${({ theme }) => theme.colors.gray2};
-      padding-bottom: 66%;
+      padding-bottom: 25%;
 
       @media (min-width: 1024px) {
         padding-bottom: 50%;
       }
     }
     > .content {
+        >. data {
+            display: flex;
+            margin-bottom: 1rem;
+            gap:0.5rem;
+            align-items: center;
+            
+            .content {
+                font-size: 0.875rem;
+                line-height: 1.25rem;
+                color: ${({ theme }) => theme.colors.gray10};
+            }
+            
+            .author {
+                display: flex;
+                align-items: center;
+            }
+        }
       padding: 1rem;
 
       &[data-thumb="false"] {
@@ -130,20 +162,25 @@ const StyledWrapper = styled(Link)`
           }
         }
       }
-      > .date {
-        display: flex;
-        margin-bottom: 1rem;
-        gap: 0.5rem;
-        align-items: center;
-        .content {
-          font-size: 0.875rem;
-          line-height: 1.25rem;
-          color: ${({ theme }) => theme.colors.gray10};
-          @media (min-width: 768px) {
-            margin-left: 0;
-          }
+        > .date {
+            display: flex;
+            margin-bottom: 0.75rem;
+            gap: 0.75rem;
+            align-items: center;
+            color: ${({ theme }) => theme.colors.gray11};
+
+            .author {
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+            }
+
+            .content {
+                font-size: 0.875rem;
+                line-height: 1.25rem;
+                color: ${({ theme }) => theme.colors.gray10};
+            }
         }
-      }
       > .summary {
         margin-bottom: 1rem;
         p {
