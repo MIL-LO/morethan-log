@@ -13,14 +13,13 @@ import { TPosts } from "src/types"
 export const getPosts = async () => {
   try {
     let id = CONFIG.notionConfig.pageId as string
-    // 캐시 방지를 위한 커스텀 헤더 추가
+
+    // 최소한의 설정으로 NotionAPI 인스턴스 생성
     const api = new NotionAPI({
       activeUser: process.env.NOTION_ACTIVE_USER,
-      timeZone: 'Asia/Seoul',
-      // 캐시 방지를 위한 타임스탬프 추가
-      authToken: process.env.NOTION_TOKEN,
-      // 요청에 타임스탬프 추가
-      notionVersion: `2022-06-28-${Date.now()}`
+      userTimeZone: 'Asia/Seoul',  // timeZone을 userTimeZone으로 수정
+      authToken: process.env.NOTION_TOKEN
+      // notionVersion 속성은 지원되지 않아 제거
     })
 
     // 타임스탬프 로깅
@@ -81,11 +80,9 @@ export const getRecordMap = async (pageId: string) => {
     // 캐시 방지를 위한 커스텀 헤더 추가
     const api = new NotionAPI({
       activeUser: process.env.NOTION_ACTIVE_USER,
-      timeZone: 'Asia/Seoul',
-      // 캐시 방지를 위한 타임스탬프 추가
-      authToken: process.env.NOTION_TOKEN,
-      // 요청에 타임스탬프 추가
-      notionVersion: `2022-06-28-${Date.now()}`
+      userTimeZone: 'Asia/Seoul',  // timeZone을 userTimeZone으로 수정
+      authToken: process.env.NOTION_TOKEN
+      // notionVersion 속성은 지원되지 않아 제거
     })
 
     return await api.getPage(pageId)
