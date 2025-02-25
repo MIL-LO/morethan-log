@@ -36,52 +36,42 @@ export const getStaticPaths = async () => {
   }
 }
 
+// pages/[slug].tsx
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
-    const slug = context.params?.slug
+    const slug = context.params?.slug;
+    const timestamp = Date.now(); // 캐시 방지용 타임스탬프
 
-    const posts = await getPosts()
-    const feedPosts = filterPosts(posts)
-    await queryClient.prefetchQuery(queryKey.posts(), () => feedPosts)
+    const posts = await getPosts();
+    const feedPosts = filterPosts(posts);
+    await queryClient.prefetchQuery(queryKey.posts(), () => feedPosts);
 
-    const detailPosts = filterPosts(posts, filter)
-    const postDetail = detailPosts.find((t: any) => t.slug === slug)
+    const detailPosts = filterPosts(posts, filter);
+    const postDetail = detailPosts.find((t: any) => t.slug === slug);
 
-    // post가 존재하지 않으면 404로 리다이렉트
     if (!postDetail?.id) {
-      return {
-        notFound: true,
-      }
+      return { notFound: true };
     }
 
-    // recordMap 가져오기 시도
-    try {
-      const recordMap = await getRecordMap(postDetail.id)
+    const recordMap = await getRecordMap(postDetail.id);
 
-      await queryClient.prefetchQuery(queryKey.post(`${slug}`), () => ({
-        ...postDetail,
-        recordMap,
-      }))
+    await queryClient.prefetchQuery(queryKey.post(`${slug}`), () => ({
+      ...postDetail,
+      recordMap,
+    }));
 
-      return {
-        props: {
-          dehydratedState: dehydrate(queryClient),
-        },
-        revalidate: CONFIG.revalidateTime,
-      }
-    } catch (error) {
-      console.error(`Error fetching recordMap for ${slug}:`, error)
-      return {
-        notFound: true,
-      }
-    }
-  } catch (error) {
-    console.error(`Error in getStaticProps for ${context.params?.slug}:`, error)
     return {
-      notFound: true,
-    }
+      props: {
+        dehydratedState: dehydrate(queryClient),
+        timestamp, // props에 타임스탬프 추가하여 매번 다른 값으로 만듦
+      },
+      revalidate: 1, // 1초로 설정
+    };
+  } catch (error) {
+    console.error(`Error in getStaticProps for ${context.params?.slug}:`, error);
+    return { notFound: true };
   }
-}
+};
 
 const DetailPage: NextPageWithLayout = () => {
   const post = usePostQuery()

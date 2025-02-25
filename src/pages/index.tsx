@@ -1,3 +1,4 @@
+// pages/index.tsx
 import Feed from "src/routes/Feed"
 import { CONFIG } from "../../site.config"
 import { NextPageWithLayout } from "../types"
@@ -10,14 +11,28 @@ import { dehydrate } from "@tanstack/react-query"
 import { filterPosts } from "src/libs/utils/notion"
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = filterPosts(await getPosts())
-  await queryClient.prefetchQuery(queryKey.posts(), () => posts)
+  try {
+    // 캐시 방지용 타임스탬프 추가
+    const timestamp = Date.now();
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-    revalidate: CONFIG.revalidateTime,
+    const posts = filterPosts(await getPosts())
+    await queryClient.prefetchQuery(queryKey.posts(), () => posts)
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+        timestamp, // 타임스탬프 추가
+      },
+      revalidate: 1, // 1초로 설정 (CONFIG.revalidateTime 대신)
+    }
+  } catch (error) {
+    console.error("Error in index getStaticProps:", error);
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+      revalidate: 1,
+    }
   }
 }
 
