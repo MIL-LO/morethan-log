@@ -1,2 +1,2 @@
-export * from "./getRecordMap"
-export * from "./getPosts"
+export { getPosts } from "./getPosts"
+export { getRecordMap } from "./getRecordMap"
