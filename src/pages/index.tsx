@@ -9,8 +9,11 @@ import { queryKey } from "src/constants/queryKey"
 import { GetStaticProps } from "next"
 import { dehydrate } from "@tanstack/react-query"
 import { filterPosts } from "src/libs/utils/notion"
+import { QueryClient } from "@tanstack/react-query"
+
 
 export const getStaticProps: GetStaticProps = async () => {
+  const queryClient = new QueryClient;
   try {
     // 캐시 방지용 타임스탬프 추가
     const timestamp = Date.now();
@@ -23,7 +26,7 @@ export const getStaticProps: GetStaticProps = async () => {
         dehydratedState: dehydrate(queryClient),
         timestamp, // 타임스탬프 추가
       },
-      revalidate: 1, // 1초로 설정 (CONFIG.revalidateTime 대신)
+      revalidate: CONFIG.revalidateTime, // 1초로 설정 (CONFIG.revalidateTime 대신)
     }
   } catch (error) {
     console.error("Error in index getStaticProps:", error);
